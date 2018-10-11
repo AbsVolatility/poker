@@ -2,6 +2,10 @@ class NotEnoughPlayers(Exception):
     pass
 
 
+class NotEnoughMoney(Exception):
+    pass
+
+
 class Player:
     def __init__(self, name, starting_funds):
         self.name = name
@@ -10,19 +14,25 @@ class Player:
         self.folded = False
 
     def bet(self, amount):
-        pass
+        if amount > self.money:
+            raise NotEnoughMoney("You don't have the funds to make that bet!")
+            # TODO: ask to go all in?
+        else:
+            self.curr_bet = amount
 
     def fold(self):
-        pass
+        self.folded = True
+        self.lose()
 
     def lose(self):
-        pass
+        self.money -= self.curr_bet
 
     def win(self, amount):
-        pass
+        self.money += amount  # should 'amount' include the player's own bet?
 
     def reset(self):
-        pass
+        self.curr_bet = 0
+        self.folded = False
 
     def __repr__(self):
         return self.name
@@ -45,6 +55,7 @@ class Game:
 
     def play_round(self):
         pass
+        #
 
     def play(self):
         pass
